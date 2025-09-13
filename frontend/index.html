@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Toxicity Detector</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Toxicity Detector</h1>
+
+    <section>
+        <h2>Analyze Text</h2>
+        <textarea id="tox-input" rows="4" cols="60"
+            placeholder="Enter your text here"></textarea><br>
+        <button onclick="checkToxicity()">Analyze</button>
+        <div id="tox-result"></div>
+    </section>
+
+    <section>
+        <h2>App Q&A</h2>
+        <input type="text" id="qa-input" placeholder="Ask about the app">
+        <button onclick="askBot()">Ask</button>
+        <div id="qa-result"></div>
+    </section>
+
+    <script src="main.js"></script>
+</body>
+</html>

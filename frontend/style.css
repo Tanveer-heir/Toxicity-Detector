@@ -1,0 +1,18 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background-color: #f4f4f4;
+}
+h1 { color: #191970; }
+section { background: #fff; margin-bottom: 30px; padding: 20px; border-radius: 7px; box-shadow: 0 2px 4px #d0d0d0;}
+button { margin-top: 10px; }
+#tox-result, #qa-result { margin-top: 12px; font-weight: bold; }
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background-color: #f4f4f4;
+}
+h1 { color: #191970; }
+section { background: #fff; margin-bottom: 30px; padding: 20px; border-radius: 7px; box-shadow: 0 2px 4px #d0d0d0;}
+button { margin-top: 10px; }
+#tox-result, #qa-result { margin-top: 12px; font-weight: bold; }
