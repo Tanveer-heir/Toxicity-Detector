@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Icons for GOODWORDS</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .icon { margin: 10px; display: inline-block; }
+        canvas { border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>CivilDialog Extension Icons</h1>
+    <p>Right-click each icon and "Save image as" to the icons folder:</p>
+    
+    <div class="icon">
+        <h3>16x16</h3>
+        <canvas id="icon16" width="16" height="16"></canvas>
+    </div>
+    
+    <div class="icon">
+        <h3>32x32</h3>
+        <canvas id="icon32" width="32" height="32"></canvas>
+    </div>
+    
+    <div class="icon">
+        <h3>48x48</h3>
+        <canvas id="icon48" width="48" height="48"></canvas>
+    </div>
+    
+    <div class="icon">
+        <h3>128x128</h3>
+        <canvas id="icon128" width="128" height="128"></canvas>
+    </div>
+
+    <script>
+        function createIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#00d4ff');
+            gradient.addColorStop(1, '#00b4db');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Chat bubble
+            const bubbleSize = size * 0.6;
+            const bubbleX = (size - bubbleSize) / 2;
+            const bubbleY = (size - bubbleSize) / 2;
+            
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.roundRect(bubbleX, bubbleY, bubbleSize, bubbleSize * 0.7, size * 0.1);
+            ctx.fill();
+            
+            // Chat bubble tail
+            ctx.beginPath();
+            ctx.moveTo(bubbleX + bubbleSize * 0.2, bubbleY + bubbleSize * 0.7);
+            ctx.lineTo(bubbleX + bubbleSize * 0.1, bubbleY + bubbleSize * 0.9);
+            ctx.lineTo(bubbleX + bubbleSize * 0.3, bubbleY + bubbleSize * 0.7);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Text lines
+            ctx.fillStyle = '#00d4ff';
+            const lineHeight = size * 0.08;
+            const lineWidth = bubbleSize * 0.6;
+            const lineX = bubbleX + bubbleSize * 0.2;
+            
+            for (let i = 0; i < 2; i++) {
+                const lineY = bubbleY + bubbleSize * 0.3 + i * lineHeight * 1.5;
+                ctx.fillRect(lineX, lineY, lineWidth, lineHeight);
+            }
+        }
+        
+        // Create all icons
+        createIcon('icon16', 16);
+        createIcon('icon32', 32);
+        createIcon('icon48', 48);
+        createIcon('icon128', 128);
+    </script>
+</body>
+</html>
+

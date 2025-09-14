@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "GOODWORDS",
+  "version": "1.0.0",
+  "description": "Transform toxic messages into positive communication. GOODWORDS helps you express yourself respectfully across all platforms.",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  
+  "host_permissions": [
+    "https://discord.com/*",
+    "https://app.slack.com/*",
+    "https://teams.microsoft.com/*",
+    "https://web.whatsapp.com/*",
+    "https://twitter.com/*",
+    "https://x.com/*",
+    "https://reddit.com/*",
+    "https://www.reddit.com/*",
+    "http://localhost:8000/*"
+  ],
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "content_scripts": [
+    {
+      "matches": [
+        "https://discord.com/*",
+        "https://app.slack.com/*",
+        "https://teams.microsoft.com/*",
+        "https://web.whatsapp.com/*",
+        "https://twitter.com/*",
+        "https://x.com/*",
+        "https://reddit.com/*",
+        "https://www.reddit.com/*"
+      ],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "GOODWORDS Settings",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["detoxify-overlay.html", "suggestion-tooltip.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

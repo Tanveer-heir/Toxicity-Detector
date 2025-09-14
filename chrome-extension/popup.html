@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOODWORDS Settings</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <!-- Header -->
+        <header class="popup-header">
+            <div class="logo">
+                <div class="logo-icon">✨</div>
+                <h1>GOODWORDS</h1>
+            </div>
+            <div class="status-indicator" id="statusIndicator">
+                <span class="status-dot"></span>
+                <span class="status-text">Active</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="popup-main">
+            <!-- Quick Stats -->
+            <section class="stats-section">
+                <h2>Today's Impact</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="detectionsCount">0</div>
+                        <div class="stat-label">Detections</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="detoxificationsCount">0</div>
+                        <div class="stat-label">Detoxifications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="platformsUsed">0</div>
+                        <div class="stat-label">Platforms</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings -->
+            <section class="settings-section">
+                <h2>Settings</h2>
+                
+                <!-- Main Toggle -->
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label for="enabledToggle">Enable GOODWORDS</label>
+                        <span class="setting-description">Transform toxic messages into positive communication</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="enabledToggle" checked>
+                        <span class="slider"></span>
+                    </div>
+                </div>
+
+                <!-- Auto Detection -->
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label for="autoDetectToggle">Auto Detection</label>
+                        <span class="setting-description">Automatically detect toxic content as you type</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="autoDetectToggle" checked>
+                        <span class="slider"></span>
+                    </div>
+                </div>
+
+                <!-- Show Suggestions -->
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label for="showSuggestionsToggle">Show Suggestions</label>
+                        <span class="setting-description">Display detoxification suggestions</span>
+                    </div>
+                    <div class="toggle-switch">
+                        <input type="checkbox" id="showSuggestionsToggle" checked>
+                        <span class="slider"></span>
+                    </div>
+                </div>
+
+                <!-- Sensitivity -->
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label for="sensitivitySlider">Sensitivity</label>
+                        <span class="setting-description">How strict the toxicity detection should be</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="sensitivitySlider" min="0.1" max="1.0" step="0.1" value="0.7">
+                        <span class="slider-value" id="sensitivityValue">0.7</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Platform Settings -->
+            <section class="platforms-section">
+                <h2>Platforms</h2>
+                <div class="platforms-grid">
+                    <div class="platform-item">
+                        <div class="platform-info">
+                            <div class="platform-icon">🎮</div>
+                            <span class="platform-name">Discord</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="discordToggle" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <div class="platform-item">
+                        <div class="platform-info">
+                            <div class="platform-icon">💼</div>
+                            <span class="platform-name">Slack</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="slackToggle" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <div class="platform-item">
+                        <div class="platform-info">
+                            <div class="platform-icon">🏢</div>
+                            <span class="platform-name">Teams</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="teamsToggle" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <div class="platform-item">
+                        <div class="platform-info">
+                            <div class="platform-icon">📱</div>
+                            <span class="platform-name">WhatsApp</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="whatsappToggle" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <div class="platform-item">
+                        <div class="platform-info">
+                            <div class="platform-icon">🐦</div>
+                            <span class="platform-name">Twitter</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="twitterToggle" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <div class="platform-item">
+                        <div class="platform-info">
+                            <div class="platform-icon">🔴</div>
+                            <span class="platform-name">Reddit</span>
+                        </div>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="redditToggle" checked>
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="actions-section">
+                <h2>Quick Actions</h2>
+                <div class="actions-grid">
+                    <button class="action-btn" id="testBtn">
+                        <span class="action-icon">🧪</span>
+                        <span class="action-text">Test Detection</span>
+                    </button>
+                    <button class="action-btn" id="resetBtn">
+                        <span class="action-icon">🔄</span>
+                        <span class="action-text">Reset Settings</span>
+                    </button>
+                    <button class="action-btn" id="exportBtn">
+                        <span class="action-icon">📊</span>
+                        <span class="action-text">Export Data</span>
+                    </button>
+                    <button class="action-btn" id="helpBtn">
+                        <span class="action-icon">❓</span>
+                        <span class="action-text">Help</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="popup-footer">
+            <div class="footer-info">
+                <span class="version">v1.0.0</span>
+                <span class="separator">•</span>
+                <a href="#" class="footer-link" id="feedbackLink">Feedback</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Test Modal -->
+    <div class="modal" id="testModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Test Toxicity Detection</h3>
+                <button class="modal-close" id="testModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="testTextarea" placeholder="Enter some text to test toxicity detection..."></textarea>
+                <button class="test-btn" id="runTestBtn">Test Detection</button>
+                <div class="test-result" id="testResult"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
+

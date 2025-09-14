@@ -1,0 +1,268 @@
+/* GOODWORDS Chrome Extension - Content Script Styles */
+
+/* Toxicity Warning Overlay */
+.good-words-toxicity-overlay {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  animation: slideIn 0.3s ease-out;
+}
+
+.toxicity-warning {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e8e 100%);
+  border: 2px solid #ff4757;
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+  backdrop-filter: blur(10px);
+  max-width: 300px;
+  color: white;
+  position: relative;
+}
+
+.toxicity-warning::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #ff4757;
+}
+
+.warning-icon {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.warning-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.warning-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.warning-labels {
+  font-size: 12px;
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.warning-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.detoxify-btn {
+  background: linear-gradient(90deg, #00d4ff 0%, #00b4db 100%);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.detoxify-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 212, 255, 0.4);
+}
+
+.dismiss-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dismiss-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Success Message */
+.civil-dialog-success-message {
+  background: linear-gradient(135deg, #00d4ff 0%, #00b4db 100%);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3);
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Floating Button */
+#civil-dialog-floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #00d4ff 0%, #00b4db 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+  z-index: 10000;
+  transition: all 0.3s ease;
+  border: 2px solid white;
+}
+
+#civil-dialog-floating-btn:hover {
+  transform: translateY(-2px) scale(1.1);
+  box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+}
+
+#civil-dialog-floating-btn:active {
+  transform: translateY(0) scale(1.05);
+}
+
+/* Input Enhancement */
+.civil-dialog-monitored {
+  position: relative;
+}
+
+.civil-dialog-monitored::after {
+  content: '💬';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 12px;
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.civil-dialog-monitored:hover::after {
+  opacity: 1;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Platform-specific adjustments */
+/* Discord */
+[data-slate-editor="true"] + .good-words-toxicity-overlay {
+  margin-top: 8px;
+}
+
+/* Slack */
+[data-qa="message_input"] + .good-words-toxicity-overlay {
+  margin-top: 8px;
+}
+
+/* Teams */
+[data-tid="ckeditor-text-area"] + .good-words-toxicity-overlay {
+  margin-top: 8px;
+}
+
+/* WhatsApp */
+[data-testid="conversation-compose-box-input"] + .good-words-toxicity-overlay {
+  margin-top: 8px;
+}
+
+/* Twitter */
+[data-testid="tweetTextarea_0"] + .good-words-toxicity-overlay {
+  margin-top: 8px;
+}
+
+/* Reddit */
+[data-test-id="post-content"] + .good-words-toxicity-overlay {
+  margin-top: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .toxicity-warning {
+    max-width: 250px;
+    padding: 10px 12px;
+  }
+  
+  .warning-title {
+    font-size: 13px;
+  }
+  
+  .warning-labels {
+    font-size: 11px;
+  }
+  
+  .detoxify-btn, .dismiss-btn {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+  
+  #civil-dialog-floating-btn {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .toxicity-warning {
+    background: linear-gradient(135deg, #ff4757 0%, #ff6b6b 100%);
+    border-color: #ff3742;
+  }
+  
+  .civil-dialog-success-message {
+    background: linear-gradient(135deg, #00b4db 0%, #00d4ff 100%);
+  }
+  
+  #civil-dialog-floating-btn {
+    background: linear-gradient(135deg, #00b4db 0%, #00d4ff 100%);
+    border-color: #1a1a1a;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .toxicity-warning {
+    border-width: 3px;
+    box-shadow: 0 0 0 2px white;
+  }
+  
+  .detoxify-btn, .dismiss-btn {
+    border: 2px solid white;
+  }
+}
+
