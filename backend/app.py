@@ -54,9 +54,9 @@ def load_word_replacements(file_path):
         print(f"Warning: Word replacements file '{file_path}' not found. Using empty replacements.")
     return replacements
 
-CUSTOM_TOXIC_WORDS = load_custom_toxic_words(r"T:\CS Journey\Projectss\Project\toxicity-detector-app\toxic.txt")
+CUSTOM_TOXIC_WORDS = load_custom_toxic_words(r"../toxic.txt")
 
-WORD_REPLACEMENTS = load_word_replacements(r"T:\CS Journey\Projectss\Project\toxicity-detector-app\replacement.txt")
+WORD_REPLACEMENTS = load_word_replacements(r"../replacement.txt")
 
 def find_custom_toxic_words(text):
     text_lower = text.lower()
@@ -182,3 +182,4 @@ def favicon():
 
 if __name__ == '__main__':
     app.run(debug=False, port=8000, host="127.0.0.1", use_reloader=False)
+
