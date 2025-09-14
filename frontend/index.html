@@ -1,27 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Toxicity Detector</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CivilDialog</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Inline CSS for toxic word highlight (can move to style.css) */
+        .toxic-highlight {
+            background-color: rgba(255, 0, 0, 0.3);
+            border-bottom: 2px solid red;
+            cursor: help;
+            transition: background-color 0.3s ease;
+        }
+        .toxic-highlight:hover {
+            background-color: rgba(255, 0, 0, 0.6);
+        }
+        .highlighted-text {
+            white-space: pre-wrap;
+            margin-bottom: 12px;
+            font-size: 1em;
+            line-height: 1.4em;
+        }
+        .result-display {
+            margin-top: 16px;
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>Toxicity Detector</h1>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">💬</div>
+                <h1>CivilDialog</h1>
+            </div>
+            <p class="description">
+                AI-driven chat platform that filters toxic messages in real time, suggests polite rewrites, and gamifies civility with positivity scoring and leaderboards for safe, respectful online discussions.
+            </p>
+        </header>
 
-    <section>
-        <h2>Analyze Text</h2>
-        <textarea id="tox-input" rows="4" cols="60"
-            placeholder="Enter your text here"></textarea><br>
-        <button onclick="checkToxicity()">Analyze</button>
-        <div id="tox-result"></div>
-    </section>
+        <!-- Toxicity Detector Section -->
+        <section class="toxicity-detector">
+            <h2>Toxicity Detector</h2>
+            <p class="subtitle">
+                <span class="sparkle">✨</span>
+                Analyze and improve your text for respectful communication.
+                <span class="sparkle">✨</span>
+            </p>
 
-    <section>
-        <h2>App Q&A</h2>
-        <input type="text" id="qa-input" placeholder="Ask about the app">
-        <button onclick="askBot()">Ask</button>
-        <div id="qa-result"></div>
-    </section>
+            <div class="input-section">
+                <label for="tox-input">Analyze Text</label>
+                <textarea id="tox-input" rows="4" placeholder="Type your message here..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="analyze-btn" onclick="checkToxicity()">Analyze</button>
+                <button class="detoxify-btn" onclick="detoxifyText()">Detoxify (Make Respectful)</button>
+            </div>
+
+            <div class="output-section">
+                <label for="detox-output">Detoxified Text</label>
+                <textarea id="detox-output" rows="4" readonly></textarea>
+            </div>
+
+            <!-- Display toxicity result with highlighted toxic words -->
+            <div id="tox-result" class="result-display"></div>
+
+            <div id="tox-result" class="result-display"></div>
+
+            <!-- Separate section showing toxic words as labels -->
+            <div class="toxic-words-section">
+                <h3>Toxic Words Detected:</h3>
+                <div id="toxic-words-labels" class="labels-container"><i>None</i></div>
+            </div>
+        </section>
+
+        <!-- App Q&A Section -->
+        <section class="app-qa">
+            <h2>App Q&A</h2>
+            <!-- Add your Q&A UI elements here -->
+        </section>
+    </div>
 
     <script src="main.js"></script>
 </body>
