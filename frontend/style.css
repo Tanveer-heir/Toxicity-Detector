@@ -13,8 +13,96 @@ body {
     line-height: 1.6;
 }
 
+/* Navigation Styles */
+.navbar {
+    background: rgba(20, 20, 40, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0 20px;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00d4ff;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #00d4ff;
+    background: rgba(0, 212, 255, 0.1);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: #00d4ff;
+    border-radius: 1px;
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        gap: 20px;
+    }
+    
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+    }
+}
+
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px;
 }
@@ -174,12 +262,13 @@ button:active {
 .result-display {
     margin-top: 20px;
     padding: 20px;
-    background: rgba(20, 20, 40, 0.8);
+    background: rgba(20, 20, 40, 0.9);
     border-radius: 16px;
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(0, 212, 255, 0.3);
     color: #ffffff;
-    font-size: 0.95rem;
-    line-height: 1.5;
+    font-size: 1rem;
+    line-height: 1.6;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Result Header */
@@ -278,6 +367,23 @@ button:active {
     opacity: 0.8;
 }
 
+/* Toxic Words Section */
+.toxic-words-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(20, 20, 40, 0.8);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.toxic-words-section h3 {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
 /* Labels Section */
 .labels-section {
     margin-bottom: 25px;
@@ -297,15 +403,16 @@ button:active {
 }
 
 .label-badge {
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: 0.9rem;
+    font-weight: 600;
     text-transform: capitalize;
     background: rgba(255, 107, 107, 0.2);
     color: #ff6b6b;
-    border: 1px solid rgba(255, 107, 107, 0.3);
+    border: 1px solid rgba(255, 107, 107, 0.4);
     transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
 }
 
 .label-badge:hover {
@@ -472,27 +579,35 @@ button:active {
         padding: 4px 8px;
     }
 
-    /* Toxic word highlight */
-    .toxic-highlight {
-    background-color: rgba(255, 0, 0, 0.3);
-    border-bottom: 2px solid #ff6b6b;
-    cursor: help;
-    transition: background-color 0.3s ease;
-    border-radius: 3px;
-    }
+        /* Toxic word highlight */
+        .toxic-highlight {
+        background-color: rgba(255, 107, 107, 0.4);
+        border-bottom: 3px solid #ff6b6b;
+        cursor: help;
+        transition: all 0.3s ease;
+        border-radius: 4px;
+        padding: 2px 4px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+        }
 
-    .toxic-highlight:hover {
-    background-color: rgba(255, 0, 0, 0.6);
-    }
+        .toxic-highlight:hover {
+        background-color: rgba(255, 107, 107, 0.7);
+        transform: scale(1.05);
+        }
 
 /* Highlighted text container for displayed input text */
-    .highlighted-text {
+.highlighted-text {
     white-space: pre-wrap;
-    margin-bottom: 12px;
-    font-size: 1rem;
-    line-height: 1.4;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.6;
     color: #ffffff;
-    }
+    padding: 15px;
+    background: rgba(30, 30, 60, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
 
 }
