@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GOODWORDS - Text Detoxification App</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Inline CSS for toxic word highlight */
+        .toxic-highlight {
+            background-color: rgba(255, 107, 107, 0.4);
+            border-bottom: 3px solid #ff6b6b;
+            cursor: help;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            padding: 2px 4px;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+        }
+        .toxic-highlight:hover {
+            background-color: rgba(255, 107, 107, 0.7);
+            transform: scale(1.05);
+        }
+        .highlighted-text {
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #ffffff;
+            padding: 15px;
+            background: rgba(30, 30, 60, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .result-display {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(20, 20, 40, 0.9);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 1.6;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .app-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <div class="logo-icon">✨</div>
+                    <span class="logo-text">GOODWORDS</span>
+                </div>
+                <div class="nav-links">
+                    <a href="home.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="app.html" class="nav-link active">App</a>
+                    <a href="extension.html" class="nav-link">Extension</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Header Section -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">✨</div>
+                <h1>GOODWORDS</h1>
+            </div>
+            <p class="description">
+                AI-driven text detoxification platform that filters toxic messages in real time, suggests polite rewrites, and helps create respectful online communication.
+            </p>
+        </header>
+
+        <!-- Toxicity Detector Section -->
+        <section class="toxicity-detector">
+            <h2>Toxicity Detector</h2>
+            <p class="subtitle">
+                <span class="sparkle">✨</span>
+                Analyze and improve your text for respectful communication.
+                <span class="sparkle">✨</span>
+            </p>
+
+            <div class="input-section">
+                <label for="tox-input">Analyze Text</label>
+                <textarea id="tox-input" rows="4" placeholder="Type your message here..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="analyze-btn" onclick="checkToxicity()">Analyze</button>
+                <button class="detoxify-btn" onclick="detoxifyText()">Detoxify (Make Respectful)</button>
+            </div>
+
+            <div class="output-section">
+                <label for="detox-output">Detoxified Text</label>
+                <textarea id="detox-output" rows="4" readonly></textarea>
+            </div>
+
+            <!-- Display toxicity result with highlighted toxic words -->
+            <div id="tox-result" class="result-display" style="display: none;"></div>
+
+            <!-- Separate section showing toxic words as labels -->
+            <div class="toxic-words-section">
+                <h3>Toxic Words Detected:</h3>
+                <div id="toxic-words-labels" class="labels-container"><i>None</i></div>
+            </div>
+        </section>
+
+        <!-- App Q&A Section -->
+        <section class="app-qa">
+            <h2>App Q&A</h2>
+            <!-- Add your Q&A UI elements here -->
+        </section>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

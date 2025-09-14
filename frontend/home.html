@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GOODWORDS - AI-Powered Text Detoxification</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Home page specific styles */
+        .hero-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+        
+        .cta-btn {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-btn-primary {
+            background: linear-gradient(90deg, #00d4ff 0%, #00b4db 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+        
+        .cta-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.4);
+        }
+        
+        .cta-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .cta-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .features-section {
+            padding: 80px 20px;
+            background: rgba(20, 20, 40, 0.5);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        
+        .feature-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .stats-section {
+            padding: 60px 20px;
+            background: rgba(0, 212, 255, 0.1);
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .stat-item {
+            color: #ffffff;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .extension-section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .extension-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        .extension-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+        
+        .extension-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+        
+        .extension-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .download-btn {
+            background: linear-gradient(90deg, #6a4c93 0%, #5a3d7a 100%);
+            color: #ffffff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(106, 76, 147, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">✨</div>
+                <span class="logo-text">GOODWORDS</span>
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link active">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="app.html" class="nav-link">App</a>
+                <a href="extension.html" class="nav-link">Extension</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">GOODWORDS</h1>
+            <p class="hero-subtitle">
+                Transform toxic messages into respectful communication with AI-powered text detoxification. 
+                Make every word count for positive online interactions.
+            </p>
+            <div class="cta-buttons">
+                <a href="app.html" class="cta-btn cta-btn-primary">Try Web App</a>
+                <a href="extension.html" class="cta-btn cta-btn-secondary">Get Chrome Extension</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; color: #00d4ff; margin-bottom: 60px; font-weight: 700;">
+                Why Choose GOODWORDS?
+            </h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI-Powered Detection</h3>
+                    <p class="feature-description">
+                        Advanced machine learning algorithms detect toxic content, 
+                        identifying harmful language patterns in real-time.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title">Smart Rewriting</h3>
+                    <p class="feature-description">
+                        Automatically transform toxic messages into respectful alternatives while 
+                        preserving your original intent and meaning.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Browser Integration</h3>
+                    <p class="feature-description">
+                        Seamless Chrome extension that works across all websites, providing 
+                        instant feedback and suggestions as you type.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Detailed Analytics</h3>
+                    <p class="feature-description">
+                        Comprehensive analysis showing toxicity levels, confidence scores, 
+                        and detailed breakdowns of detected issues.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Real-time Feedback</h3>
+                    <p class="feature-description">
+                        Get instant suggestions and corrections as you type, helping you 
+                        develop better communication habits.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Privacy First</h3>
+                    <p class="feature-description">
+                        Your data stays secure with local processing options and 
+                        transparent privacy policies.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Extension Section -->
+    <section class="extension-section">
+        <div class="container">
+            <div class="extension-card">
+                <div class="extension-icon">🚀</div>
+                <h2 class="extension-title">Chrome Extension</h2>
+                <p class="extension-description">
+                    Install our powerful Chrome extension to get real-time toxicity detection 
+                    and suggestions across all websites. Perfect for social media, emails, 
+                    and any online communication.
+                </p>
+                <a href="extension.html" class="download-btn">Download Extension</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(20, 20, 40, 0.8); padding: 40px 20px; text-align: center; border-top: 1px solid rgba(0, 212, 255, 0.2);">
+        <div class="container">
+            <div style="color: #ffffff; margin-bottom: 20px;">
+                <div style="font-size: 1.5rem; font-weight: 600; color: #00d4ff; margin-bottom: 10px;">GOODWORDS</div>
+                <p style="opacity: 0.8;">Making online communication respectful, one word at a time.</p>
+            </div>
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">
+                    © 2024 GOODWORDS. All rights reserved. | Privacy Policy | Terms of Service
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

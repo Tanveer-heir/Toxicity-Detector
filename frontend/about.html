@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About GOODWORDS - AI-Powered Text Detoxification</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .about-hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        
+        .about-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        
+        .about-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .content-section {
+            padding: 60px 20px;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: start;
+        }
+        
+        .content-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .content-card h2 {
+            color: #00d4ff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .content-card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .team-section {
+            padding: 60px 20px;
+            background: rgba(20, 20, 40, 0.5);
+            text-align: center;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .team-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.5);
+        }
+        
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #00d4ff, #6a4c93);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        
+        .team-role {
+            color: #00d4ff;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .team-bio {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .about-title {
+                font-size: 2.5rem;
+            }
+            
+            .about-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">✨</div>
+                <span class="logo-text">GOODWORDS</span>
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link active">About</a>
+                <a href="app.html" class="nav-link">App</a>
+                <a href="extension.html" class="nav-link">Extension</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Hero -->
+    <section class="about-hero">
+        <h1 class="about-title">About GOODWORDS</h1>
+        <p class="about-subtitle">
+            We're on a mission to make online communication more respectful, 
+            one word at a time. Discover how our AI-powered platform is transforming digital conversations.
+        </p>
+    </section>
+
+    <!-- Main Content -->
+    <section class="content-section">
+        <div class="content-grid">
+            <div class="content-card">
+                <h2>Our Mission</h2>
+                <p>
+                    GOODWORDS was born from a simple yet powerful idea: what if technology could help us communicate better? 
+                    In a world where online interactions often turn toxic, we believe AI can be a force for good.
+                </p>
+                <p>
+                    Our mission is to create tools that not only detect harmful language but actively help users 
+                    improve their communication skills. We're building a future where every online conversation 
+                    contributes to a more respectful digital world.
+                </p>
+                <p>
+                    By combining cutting-edge machine learning with user-friendly design, we're making 
+                    advanced text analysis accessible to everyone, from individuals to large organizations.
+                </p>
+            </div>
+            
+            <div class="content-card">
+                <h2>How It Works</h2>
+                <p>
+                    GOODWORDS uses advanced natural language processing models trained on extensive datasets 
+                    to identify potentially harmful or toxic content with high accuracy.
+                </p>
+                <p>
+                    Our system analyzes text in real-time, providing instant feedback and suggestions. 
+                    When toxic content is detected, our AI doesn't just flag it – it offers constructive 
+                    alternatives that maintain your original intent while promoting respectful communication.
+                </p>
+                <p>
+                    The platform works seamlessly across web applications and browser extensions, 
+                    ensuring you have access to better communication tools wherever you go online.
+                </p>
+            </div>
+            
+            <div class="content-card">
+                <h2>Technology</h2>
+                <p>
+                    Built on advanced transformer-based models, GOODWORDS leverages the latest in AI research 
+                    to understand context, nuance, and intent in human communication.
+                </p>
+                <p>
+                    Our models are designed to stay current with evolving language patterns 
+                    and communication styles. We use ensemble methods combining multiple AI approaches for 
+                    maximum accuracy and reliability.
+                </p>
+                <p>
+                    Privacy is paramount – we offer both cloud-based and local processing options, 
+                    ensuring your sensitive communications stay secure while still benefiting from our technology.
+                </p>
+            </div>
+            
+            <div class="content-card">
+                <h2>Impact</h2>
+                <p>
+                    GOODWORDS is designed to help users improve their online communication, 
+                    reducing toxic interactions and promoting more positive digital spaces.
+                </p>
+                <p>
+                    Our platform is designed to be valuable for organizations looking to improve team communication, 
+                    customer service interactions, and overall digital culture. Educational institutions can use 
+                    GOODWORDS to teach students about respectful online communication.
+                </p>
+                <p>
+                    We're proud to be part of a growing movement toward more thoughtful, respectful digital interactions, 
+                    and we're committed to continuing to innovate in this space.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; color: #00d4ff; margin-bottom: 60px; font-weight: 700;">
+                Meet Our Team
+            </h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">👨‍💻</div>
+                    <div class="team-name">Tanvir Singh</div>
+                    <div class="team-role">Lead</div>
+                    
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👨‍💻</div>
+                    <div class="team-name">Jashandeep Singh</div>
+                    <div class="team-role">Member</div>
+                    
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👩‍🔬</div>
+                    <div class="team-name">Harnaz Kaur</div>
+                    <div class="team-role">Member</div>
+                  
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar">👨‍💻</div>
+                    <div class="team-name">Udaiveer Singh</div>
+                    <div class="team-role">Member</div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(20, 20, 40, 0.8); padding: 40px 20px; text-align: center; border-top: 1px solid rgba(0, 212, 255, 0.2);">
+        <div class="container">
+            <div style="color: #ffffff; margin-bottom: 20px;">
+                <div style="font-size: 1.5rem; font-weight: 600; color: #00d4ff; margin-bottom: 10px;">GOODWORDS</div>
+                <p style="opacity: 0.8;">Making online communication respectful, one word at a time.</p>
+            </div>
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">
+                    © 2024 GOODWORDS. All rights reserved. | Privacy Policy | Terms of Service
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

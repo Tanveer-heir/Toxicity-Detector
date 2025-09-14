@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GOODWORDS Chrome Extension - Real-time Text Detoxification</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .extension-hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .extension-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="chrome" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="%2300d4ff" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23chrome)"/></svg>');
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .extension-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            color: #00d4ff;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+        
+        .extension-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        
+        .extension-subtitle {
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .download-section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .download-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .download-btn {
+            background: linear-gradient(90deg, #6a4c93 0%, #5a3d7a 100%);
+            color: #ffffff;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 20px 10px;
+            box-shadow: 0 8px 25px rgba(106, 76, 147, 0.3);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(106, 76, 147, 0.4);
+        }
+        
+        .download-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .download-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .features-section {
+            padding: 80px 20px;
+            background: rgba(20, 20, 40, 0.5);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        
+        .feature-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .screenshots-section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .screenshot-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .screenshot-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00d4ff;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            border: 2px dashed rgba(0, 212, 255, 0.3);
+        }
+        
+        .screenshot-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        
+        .screenshot-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+        
+        .installation-section {
+            padding: 80px 20px;
+            background: rgba(20, 20, 40, 0.5);
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .step-card {
+            background: rgba(30, 30, 60, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: #00d4ff;
+            color: #1a1a2e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+        
+        .step-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+        
+        @media (max-width: 768px) {
+            .extension-title {
+                font-size: 2.5rem;
+            }
+            
+            .extension-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .download-btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">✨</div>
+                <span class="logo-text">GOODWORDS</span>
+            </div>
+            <div class="nav-links">
+                <a href="home.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="app.html" class="nav-link">App</a>
+                <a href="extension.html" class="nav-link active">Extension</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Extension Hero -->
+    <section class="extension-hero">
+        <div class="hero-content">
+            <div class="extension-icon">🚀</div>
+            <h1 class="extension-title">GOODWORDS Chrome Extension</h1>
+            <p class="extension-subtitle">
+                Get real-time toxicity detection and suggestions across all websites. 
+                Transform your online communication wherever you go.
+            </p>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download-section">
+        <div class="container">
+            <div class="download-card">
+                <h2 style="font-size: 2.5rem; color: #00d4ff; margin-bottom: 30px; font-weight: 700;">
+                    Download GOODWORDS Extension
+                </h2>
+                <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; margin-bottom: 40px; line-height: 1.6;">
+                    Install our powerful Chrome extension to get instant toxicity detection and suggestions 
+                    across all websites. Perfect for social media, emails, forums, and any online communication.
+                </p>
+                <a href="#" class="download-btn" onclick="alert('Extension download will be available soon!')">
+                    Download for Chrome
+                </a>
+                <a href="app.html" class="download-btn secondary">
+                    Try Web App First
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; color: #00d4ff; margin-bottom: 60px; font-weight: 700;">
+                Extension Features
+            </h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Real-time Detection</h3>
+                    <p class="feature-description">
+                        Get instant feedback as you type. Our extension analyzes text in real-time 
+                        across all websites, providing immediate toxicity detection and suggestions.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Universal Compatibility</h3>
+                    <p class="feature-description">
+                        Works seamlessly on social media platforms, email clients, forums, 
+                        comment sections, and any website where you communicate online.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Smart Suggestions</h3>
+                    <p class="feature-description">
+                        Receive intelligent alternative suggestions that maintain your original 
+                        intent while promoting more respectful communication.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3 class="feature-title">Customizable Settings</h3>
+                    <p class="feature-description">
+                        Adjust sensitivity levels, enable/disable features, and customize 
+                        the extension to match your communication style and preferences.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Usage Analytics</h3>
+                    <p class="feature-description">
+                        Track your communication patterns and see how GOODWORDS helps you 
+                        improve your online interactions over time.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Privacy Protected</h3>
+                    <p class="feature-description">
+                        Your data stays secure with local processing options and transparent 
+                        privacy policies. No sensitive information is stored or shared.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section class="screenshots-section">
+        <div class="container">
+            <h2 style="font-size: 2.5rem; color: #00d4ff; margin-bottom: 60px; font-weight: 700;">
+                See It In Action
+            </h2>
+            <div class="screenshot-grid">
+                <div class="screenshot-card">
+                    <div class="screenshot-placeholder">
+                        📱 Social Media Detection
+                    </div>
+                    <h3 class="screenshot-title">Social Media Integration</h3>
+                    <p class="screenshot-description">
+                        See how GOODWORDS works on Twitter, Facebook, LinkedIn, and other 
+                        social platforms to help you communicate more respectfully.
+                    </p>
+                </div>
+                <div class="screenshot-card">
+                    <div class="screenshot-placeholder">
+                        📧 Email Assistance
+                    </div>
+                    <h3 class="screenshot-title">Email Communication</h3>
+                    <p class="screenshot-description">
+                        Get suggestions while composing emails in Gmail, Outlook, and other 
+                        email clients to ensure professional communication.
+                    </p>
+                </div>
+                <div class="screenshot-card">
+                    <div class="screenshot-placeholder">
+                        💬 Forum Comments
+                    </div>
+                    <h3 class="screenshot-title">Forum & Comments</h3>
+                    <p class="screenshot-description">
+                        Improve your forum posts and comment interactions with real-time 
+                        feedback and suggestions for more constructive communication.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="installation-section">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; color: #00d4ff; margin-bottom: 60px; font-weight: 700;">
+                Easy Installation
+            </h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Download Extension</h3>
+                    <p class="step-description">
+                        Click the download button above to get the GOODWORDS Chrome extension 
+                        from the Chrome Web Store.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Install & Enable</h3>
+                    <p class="step-description">
+                        Follow the Chrome installation prompts and enable the extension 
+                        to start using GOODWORDS across all websites.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Customize Settings</h3>
+                    <p class="step-description">
+                        Adjust your preferences in the extension settings to match your 
+                        communication style and sensitivity requirements.
+                    </p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Start Communicating</h3>
+                    <p class="step-description">
+                        Begin typing on any website and see GOODWORDS in action, 
+                        helping you communicate more respectfully in real-time.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: rgba(20, 20, 40, 0.8); padding: 40px 20px; text-align: center; border-top: 1px solid rgba(0, 212, 255, 0.2);">
+        <div class="container">
+            <div style="color: #ffffff; margin-bottom: 20px;">
+                <div style="font-size: 1.5rem; font-weight: 600; color: #00d4ff; margin-bottom: 10px;">GOODWORDS</div>
+                <p style="opacity: 0.8;">Making online communication respectful, one word at a time.</p>
+            </div>
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem;">
+                    © 2024 GOODWORDS. All rights reserved. | Privacy Policy | Terms of Service
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
