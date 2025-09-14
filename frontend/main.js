@@ -1,13 +1,16 @@
+// Highlight toxic words inline with tooltip
 function highlightToxicWords(text, toxicWords) {
     if (!toxicWords || toxicWords.length === 0) return text;
 
+    // Escape regex special characters in toxic words
     const escapedWords = toxicWords.map(w => w.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'));
     const pattern = new RegExp(`\\b(${escapedWords.join('|')})\\b`, 'gi');
-    
+
+    // Wrap matched toxic words in span with highlight class
     return text.replace(pattern, match => `<span class="toxic-highlight" title="Marked as toxic word">${match}</span>`);
 }
 
-
+// Display toxic words as separate badges below analyzed text
 function displayToxicWordLabels(toxicWords) {
     const container = document.getElementById("toxic-words-labels");
     if (!toxicWords || toxicWords.length === 0) {
@@ -25,11 +28,13 @@ function checkToxicity() {
 
     if (!text.trim()) {
         resultDiv.innerHTML = '<p style="color: #ff6b6b;">Please enter some text to analyze.</p>';
+        resultDiv.style.display = 'block';
         displayToxicWordLabels([]);
         return;
     }
 
     resultDiv.innerHTML = '<p style="color: #00d4ff;">Analyzing text...</p>';
+    resultDiv.style.display = 'block';
 
     fetch("http://localhost:8000/api/detect", {
         method: "POST",
@@ -108,6 +113,7 @@ function checkToxicity() {
     })
     .catch(error => {
         resultDiv.innerHTML = '<p style="color: #ff6b6b;">Error analyzing text. Please try again.</p>';
+        resultDiv.style.display = 'block';
         displayToxicWordLabels([]);
         console.error("Error:", error);
     });
@@ -180,6 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const resultDiv = document.getElementById("tox-result");
             if (resultDiv && resultDiv.innerHTML.includes("Analyzing")) {
                 resultDiv.innerHTML = "";
+                resultDiv.style.display = 'none';
             }
             displayToxicWordLabels([]); // clear toxic word labels on input change
         });
