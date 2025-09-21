@@ -7,25 +7,56 @@ import os
 import string
 from flask import send_from_directory
 
+# Import enhanced detection modules
+try:
+    from enhanced_detector import EnhancedToxicityDetector
+    from text_normalizer import TextNormalizer
+    from sarcasm_detector import SarcasmDetector
+    from contextual_analyzer import ContextualAnalyzer
+    ENHANCED_FEATURES_AVAILABLE = True
+except ImportError as e:
+    print(f"Enhanced features not available: {e}")
+    ENHANCED_FEATURES_AVAILABLE = False
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 device = 0 if torch.cuda.is_available() else -1
 
-classifier = pipeline(
-    "text-classification",
-    model="unitary/toxic-bert",
-    device=device,
-    top_k=None
-)
+# Initialize original models
+classifier = None
+try:
+    classifier = pipeline(
+        "text-classification",
+        model="unitary/toxic-bert",
+        device=device,
+        top_k=None
+    )
+    print("Original BERT classifier loaded successfully")
+except Exception as e:
+    print(f"Original classifier loading error: {e}")
 
 try:
     detoxifier_backup = pipeline("text2text-generation", model="s-nlp/mt0-xl-detox-mpd", device=device)
+    print("Detoxification model loaded successfully")
 except Exception as e:
     print(f"Detox model loading error: {e}")
     detoxifier_backup = None
 
 threshold = 0.7
+
+# Initialize enhanced detector
+enhanced_detector = None
+if ENHANCED_FEATURES_AVAILABLE:
+    try:
+        enhanced_detector = EnhancedToxicityDetector(
+            original_classifier=classifier,
+            threshold=threshold
+        )
+        print("Enhanced toxicity detector initialized successfully")
+    except Exception as e:
+        print(f"Enhanced detector initialization error: {e}")
+        enhanced_detector = None
 
 def load_custom_toxic_words(file_path):
     toxic_words = set()
@@ -71,36 +102,95 @@ def find_custom_toxic_words(text):
     return list(found_words)
 
 def analyze_toxicity(text):
+    """Enhanced toxicity analysis with fallback to original method"""
     if not text or len(text.strip()) == 0:
-        return {"is_toxic": False, "scores": {}, "toxic_labels": [], "confidence": 0.0, "toxic_words": []}
+        return {"is_toxic": False, "scores": {}, "toxic_labels": [], "confidence": 0.0, "toxic_words": [], "enhanced": False}
 
-    results = classifier(text)
-    toxic_labels = []
-    scores = {}
-    max_score = 0.0
+    # Try enhanced analysis first
+    if enhanced_detector and ENHANCED_FEATURES_AVAILABLE:
+        try:
+            enhanced_result = enhanced_detector.analyze_toxicity_enhanced(text, CUSTOM_TOXIC_WORDS)
+            
+            # Convert enhanced result to original format with additional data
+            result = {
+                "is_toxic": enhanced_result.is_toxic,
+                "confidence": enhanced_result.confidence,
+                "toxic_labels": enhanced_result.toxic_labels,
+                "scores": enhanced_result.scores,
+                "toxic_words": enhanced_result.toxic_words,
+                "enhanced": True,
+                
+                # Additional enhanced features
+                "normalized_text": enhanced_result.normalized_text,
+                "normalization_applied": enhanced_result.normalization_applied,
+                "sarcasm_analysis": {
+                    "is_sarcastic": enhanced_result.is_sarcastic,
+                    "confidence": enhanced_result.sarcasm_confidence,
+                    "indicators": enhanced_result.sarcasm_analysis.get("indicators", [])
+                },
+                "contextual_analysis": {
+                    "context_toxicity": enhanced_result.context_toxicity,
+                    "risk_factors": enhanced_result.risk_factors,
+                    "sequence_labels": enhanced_result.sequence_labels[:5]  # Limit for API response size
+                },
+                "processing_notes": enhanced_result.processing_notes[-3:],  # Last 3 notes
+                "analysis_summary": enhanced_detector.get_analysis_summary(enhanced_result)
+            }
+            
+            return result
+            
+        except Exception as e:
+            print(f"Enhanced analysis failed, falling back to original: {e}")
+    
+    # Fallback to original analysis
+    if not classifier:
+        return {"is_toxic": False, "scores": {}, "toxic_labels": [], "confidence": 0.0, "toxic_words": [], "enhanced": False, "error": "No classifier available"}
+    
+    try:
+        results = classifier(text)
+        toxic_labels = []
+        scores = {}
+        max_score = 0.0
 
-    for item in results[0]:
-        label = item["label"]
-        score = item["score"]
-        scores[label] = score
-        if score >= threshold and label.lower() != "not toxic":
-            toxic_labels.append(label)
-            if score > max_score:
-                max_score = score
+        for item in results[0]:
+            label = item["label"]
+            score = item["score"]
+            scores[label] = score
+            if score >= threshold and label.lower() != "not toxic":
+                toxic_labels.append(label)
+                if score > max_score:
+                    max_score = score
 
-    toxic_words = find_custom_toxic_words(text)
-    is_toxic = len(toxic_labels) > 0 or len(toxic_words) > 0
+        toxic_words = find_custom_toxic_words(text)
+        is_toxic = len(toxic_labels) > 0 or len(toxic_words) > 0
 
-    return {
-        "is_toxic": is_toxic,
-        "confidence": max_score,
-        "toxic_labels": toxic_labels,
-        "scores": scores,
-        "toxic_words": toxic_words,
-    }
+        return {
+            "is_toxic": is_toxic,
+            "confidence": max_score,
+            "toxic_labels": toxic_labels,
+            "scores": scores,
+            "toxic_words": toxic_words,
+            "enhanced": False
+        }
+    except Exception as e:
+        print(f"Original analysis failed: {e}")
+        return {"is_toxic": False, "scores": {}, "toxic_labels": [], "confidence": 0.0, "toxic_words": [], "enhanced": False, "error": str(e)}
 
 def simple_word_replacement(text):
-    words_found = find_custom_toxic_words(text)
+    """Enhanced word replacement using normalization"""
+    # Try enhanced normalization first if available
+    if ENHANCED_FEATURES_AVAILABLE:
+        try:
+            normalizer = TextNormalizer()
+            normalized_text = normalizer.normalize_text(text)
+            # Use normalized text for detection but preserve original structure for replacement
+            words_found = find_custom_toxic_words(normalized_text)
+        except Exception as e:
+            print(f"Enhanced normalization failed in replacement: {e}")
+            words_found = find_custom_toxic_words(text)
+    else:
+        words_found = find_custom_toxic_words(text)
+    
     if not words_found:
         return None
     result_text = text
@@ -112,11 +202,23 @@ def simple_word_replacement(text):
     return result_text
 
 def detoxify_with_backup_model(text):
+    """Enhanced detoxification using normalization preprocessing"""
     if detoxifier_backup is None:
         return None
+    
+    # Preprocess with normalization if available
+    processed_text = text
+    if ENHANCED_FEATURES_AVAILABLE:
+        try:
+            normalizer = TextNormalizer()
+            processed_text = normalizer.normalize_text(text)
+        except Exception as e:
+            print(f"Enhanced normalization failed in detoxification: {e}")
+            processed_text = text
+    
     try:
         result = detoxifier_backup(
-            text,
+            processed_text,
             max_new_tokens=80,
             do_sample=True,
             temperature=0.9,
@@ -124,7 +226,7 @@ def detoxify_with_backup_model(text):
             repetition_penalty=1.4
         )
         output = result[0]['generated_text'].strip()
-        if output.lower() != text.lower() and len(output) > 3:
+        if output.lower() != processed_text.lower() and len(output) > 3:
             return output
     except Exception as e:
         print(f"Backup model error: {e}")
@@ -146,12 +248,134 @@ def api_ask():
     data = request.get_json()
     question = data.get("question", "")
     if "model" in question.lower():
-        answer = "This uses 'unitary/toxic-bert' for detection and 's-nlp/mt0-xl-detox-mpd' as detoxification model."
+        if ENHANCED_FEATURES_AVAILABLE:
+            answer = "This uses enhanced multi-task detection: 'unitary/toxic-bert' for base detection, advanced text normalization, sarcasm/irony detection, and contextual analysis with sequence labeling."
+        else:
+            answer = "This uses 'unitary/toxic-bert' for detection and 's-nlp/mt0-xl-detox-mpd' as detoxification model."
     elif "threshold" in question.lower():
         answer = f"The classification threshold is set at {threshold}."
+    elif "enhanced" in question.lower() or "features" in question.lower():
+        if ENHANCED_FEATURES_AVAILABLE:
+            answer = "Enhanced features include: text normalization (emojis, slang, spelling), sarcasm/irony detection, contextual embeddings, sequence labeling, and multi-task learning."
+        else:
+            answer = "Enhanced features are not currently available. Using basic toxicity detection."
     else:
-        answer = "Ask about the model, threshold, or how toxicity is detected."
+        answer = "Ask about the model, threshold, enhanced features, or how toxicity is detected."
     return jsonify({"answer": answer})
+
+@app.route("/api/normalize", methods=["POST"])
+def api_normalize():
+    """New endpoint for text normalization"""
+    if not ENHANCED_FEATURES_AVAILABLE:
+        return jsonify({"error": "Enhanced features not available"}), 503
+    
+    data = request.get_json()
+    text = data.get("text", "")
+    
+    if not text.strip():
+        return jsonify({"normalized_text": "", "normalization_info": {}})
+    
+    try:
+        normalizer = TextNormalizer()
+        normalized_text = normalizer.normalize_text(text)
+        normalization_info = normalizer.get_normalization_info(text)
+        
+        return jsonify({
+            "original_text": text,
+            "normalized_text": normalized_text,
+            "normalization_applied": normalized_text != text,
+            "normalization_info": normalization_info
+        })
+    except Exception as e:
+        return jsonify({"error": f"Normalization failed: {str(e)}"}), 500
+
+@app.route("/api/detect_sarcasm", methods=["POST"])
+def api_detect_sarcasm():
+    """New endpoint for sarcasm detection"""
+    if not ENHANCED_FEATURES_AVAILABLE:
+        return jsonify({"error": "Enhanced features not available"}), 503
+    
+    data = request.get_json()
+    text = data.get("text", "")
+    
+    if not text.strip():
+        return jsonify({"is_sarcastic": False, "confidence": 0.0, "indicators": []})
+    
+    try:
+        sarcasm_detector = SarcasmDetector()
+        result = sarcasm_detector.analyze_sarcasm(text)
+        
+        return jsonify({
+            "is_sarcastic": result.is_sarcastic,
+            "confidence": result.confidence,
+            "confidence_level": sarcasm_detector.get_sarcasm_confidence_level(result.confidence),
+            "indicators": result.indicators,
+            "score_breakdown": result.score_breakdown
+        })
+    except Exception as e:
+        return jsonify({"error": f"Sarcasm detection failed: {str(e)}"}), 500
+
+@app.route("/api/analyze_context", methods=["POST"])
+def api_analyze_context():
+    """New endpoint for contextual analysis"""
+    if not ENHANCED_FEATURES_AVAILABLE:
+        return jsonify({"error": "Enhanced features not available"}), 503
+    
+    data = request.get_json()
+    text = data.get("text", "")
+    
+    if not text.strip():
+        return jsonify({"overall_toxicity": 0.0, "sequence_labels": [], "risk_factors": []})
+    
+    try:
+        contextual_analyzer = ContextualAnalyzer()
+        result = contextual_analyzer.analyze_text(text)
+        
+        # Limit sequence labels for API response
+        limited_sequence_labels = [
+            {
+                "token": token.token,
+                "position": token.position,
+                "label": token.label.value,
+                "confidence": token.confidence
+            }
+            for token in result.sequence_labels[:20]  # Limit to first 20 tokens
+        ]
+        
+        return jsonify({
+            "overall_toxicity": result.overall_toxicity,
+            "sequence_labels": limited_sequence_labels,
+            "contextual_features": {k: v for k, v in result.contextual_features.items() if isinstance(v, (int, float, bool))},
+            "risk_factors": result.risk_factors,
+            "attention_weights": result.attention_weights[:20] if result.attention_weights else []
+        })
+    except Exception as e:
+        return jsonify({"error": f"Contextual analysis failed: {str(e)}"}), 500
+
+@app.route("/api/health", methods=["GET"])
+def api_health():
+    """Health check endpoint with feature availability"""
+    health_status = {
+        "status": "healthy",
+        "features": {
+            "basic_detection": classifier is not None,
+            "detoxification": detoxifier_backup is not None,
+            "enhanced_features": ENHANCED_FEATURES_AVAILABLE and enhanced_detector is not None,
+            "text_normalization": ENHANCED_FEATURES_AVAILABLE,
+            "sarcasm_detection": ENHANCED_FEATURES_AVAILABLE,
+            "contextual_analysis": ENHANCED_FEATURES_AVAILABLE
+        },
+        "models": {
+            "toxicity_classifier": "unitary/toxic-bert" if classifier else None,
+            "detoxification": "s-nlp/mt0-xl-detox-mpd" if detoxifier_backup else None
+        },
+        "threshold": threshold
+    }
+    
+    if ENHANCED_FEATURES_AVAILABLE and enhanced_detector:
+        health_status["enhanced_model_versions"] = enhanced_detector.model_versions
+    
+    return jsonify(health_status)
 
 @app.route("/api/detoxify", methods=["POST", "OPTIONS"])
 def api_detoxify():
